@@ -1,53 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:columnCount="3"
-    tools:context="willburles.brookes.ac.musicalsensors.MainActivity">
+<GridLayout android:id="@+id/activity_main"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="3"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="willburles.brookes.ac.musicalsensors.MainActivity">
 
-    <EditText android:id="@+id/text_area"
-        android:hint="@string/score_area_text"
+    <EditText
+        android:id="@+id/text_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:text="8G5 8F5 8E5 8D5 8C5 6B4 8A4 1G4 8F4 8E4 8D4 6C4"
+        android:layout_columnSpan="2"
         android:layout_row="0"
-        android:layout_columnSpan="2"/>
+        android:hint="@string/score_area_text"
+        android:text="8G5 8F5 8E5 8D5 8C5 6B4 8A4 1G4 8F4 8E4 8D4 6C4"/>
 
-    <TextView android:id="@+id/sensors_text"
-        android:text="@string/default_sensor_text"
+    <TextView
+        android:id="@+id/sensors_text"
         android:layout_width="96dp"
-        android:textAlignment="textEnd"
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_row="1"
-        android:layout_rowSpan="2"/>
+        android:layout_rowSpan="2"
+        android:text="@string/default_sensor_text"
+        android:textAlignment="textEnd"/>
 
-    <SeekBar android:id="@+id/sensor_range"
+    <SeekBar
+        android:id="@+id/sensor_range"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_column="1"
+        android:layout_marginEnd="100dp"
         android:layout_row="1"
         android:layout_rowWeight="6"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:progress="50" />
+        android:progress="50"/>
 
-    <Button android:id="@+id/sensor_button"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/sensor_button"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_column="1"
+        android:layout_marginEnd="100dp"
         android:layout_row="2"
         android:layout_rowWeight="2"
-        android:text="@string/sensor_button_text"
-        android:layout_marginEnd="100dp" />
+        android:text="@string/sensor_button_text"/>
 
-    <Button android:id="@+id/button_play"
+    <Button
+        android:id="@+id/button_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
