@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Musical Sensors</string>
+    <string name="menu_clear_txt">Clear Saved</string>
+    <string name="score_area_text">Enter Score Here</string>
+    <string name="default_sensor_text">X:\nY:\nZ:\nRange:</string>
+    <string name="sensor_button_text">Assign Values To Song</string>
+    <string name="play_button_text">Play</string>
+    <string name="invalid_input_toast">Song entered is in invalid format</string>
+    <string name="song_assigned_toast">Song assigned to position</string>
+    <string name="info_x">X:</string>
+    <string name="info_y">\nY:</string>
+    <string name="info_z">\nZ:</string>
+    <string name="info_range">\nRange:</string>
+</resources>
