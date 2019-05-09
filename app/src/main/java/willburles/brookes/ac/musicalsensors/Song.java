@@ -21,7 +21,7 @@ public class Song {
     }
 
     public float[] getPos() {
-        float[] pos = {x,y,z};
+        float[] pos = {x, y, z};
         return pos;
     }
 
