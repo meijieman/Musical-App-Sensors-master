@@ -2,14 +2,15 @@ package willburles.brookes.ac.musicalsensors;
 
 /**
  * Created by Will on 02/12/2016.
+ * Note 指单个音符
  */
 
 public class Note {
 
-    private int length;
-    private int octave;
-    private String note;
-    private double freq;
+    private int length; // 音符 八分音符，六分音符，四分音符，三分音符，二分音符，全音符
+    private int octave; //
+    private String note; // 音符 CDEFGAB
+    private double freq; // 单位HZ，该音对应的频率，国际标准音 A-la-440HZ
 
     public Note(int length, String note, int octave) {
         this.length = length;

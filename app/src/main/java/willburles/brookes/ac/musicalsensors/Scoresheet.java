@@ -12,21 +12,21 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class ScoreSheet extends View {
+public class Scoresheet extends View {
 
     private Canvas canvas;
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private ArrayList<Note> track = new ArrayList<>();
 
-    public ScoreSheet(Context context) {
+    public Scoresheet(Context context) {
         super(context);
     }
 
-    public ScoreSheet(Context context, AttributeSet attrs) {
+    public Scoresheet(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScoreSheet(Context context, AttributeSet attrs, int defStyle) {
+    public Scoresheet(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -212,11 +212,15 @@ public class ScoreSheet extends View {
         int y = 0;
         canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.treble_clef),
                 null, new Rect(x, y, x + 150, y + 375), null);
-        canvas.drawLine(x + 165, y + 90, x + 165, y + 290, paint);
+        canvas.drawLine(x + 165, y + 90, x + 165, y + 290, paint); // 小节线
         y += 40;
+        paint.setColor(Color.RED);
         drawStave(canvas, x, y);
+        paint.setColor(Color.GREEN);
         drawStave(canvas, x + 90, y);
+        paint.setColor(Color.BLUE);
         drawStave(canvas, x + 120, y);
+        paint.setColor(Color.YELLOW);
         x += 220;
         for (Note note : track) {
             switch (note.getLength()) {

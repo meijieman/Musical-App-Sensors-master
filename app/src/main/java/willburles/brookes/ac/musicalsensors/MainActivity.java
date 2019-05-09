@@ -26,16 +26,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = "tag_audio";
+
     private final int SAMPLE_RATE = 8000;
+
     EditText audioInput;
     TextView sensorOut;
     SeekBar sensorRange;
     Button sensorButton;
     Button playButton;
-    ScoreSheet scoresheet;
+    Scoresheet scoresheet;
+
     AudioTrack audioTrack;
     ArrayList<Song> songList;
     private Handler handler = new Handler();
@@ -48,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
     private float z;
     private float range;
 
+    /*
+        时长-调号-音阶
+        时长 指八分音符的多少倍 取值范围 [1-4|6|8] , 8表示全音符；4表示8分音符的4倍，即2分音符；3表示八分音符的3倍，即4分音符 + 8分音符；
+            2表示八分音符的2倍，即4分音符
+        调号 指[A-G][#?|b?]?
+        音阶 [1-8]
+
+     */
     private String anote = "4A4";
     private String bday = "2D4 2D4 4E4 4D4 4G4 8F#4";
     private String sweep = "1G#5 2Fb5 3E#5 4Db5 4C#5 6Bb4 8A#4 1Gb4 2F#4 3Eb4 4D#4 6Cb4";
@@ -56,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     private String twinkle = "2Eb4 2Eb4 2Bb4 2Bb4 2C5 2C5 4Bb4";
 
     private SensorEventListener mSensorEventListener = new SensorEventListener() {
-
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             if (sensorEvent.values[0] != x | sensorEvent.values[1] != y | sensorEvent.values[2] != z) {
@@ -138,10 +150,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Note> songParse(String input) {
         String[] notesStr = input.split(" ");
+        Log.i(TAG, "notesStr " + Arrays.toString(notesStr));
         ArrayList<Note> notes = new ArrayList<>();
         for (String noteIn : notesStr) {
             int length = Integer.parseInt(noteIn.substring(0, 1));
             String note;
+            // octave 八度音阶
             int octave;
             if (noteIn.length() == 4) {
                 note = noteIn.substring(1, 3);
@@ -150,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 note = noteIn.substring(1, 2);
                 octave = Integer.parseInt(noteIn.substring(2));
             }
-            Log.d("audio", "The parser is parsing: " + noteIn + " " + note + " " + length);
+            Log.i(TAG, "The parser is parsing: " + noteIn + " " + note + " " + length);
             notes.add(new Note(length, note, octave));
         }
         return notes;
@@ -160,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<byte[]> track = new ArrayList<>();
         int bufferSize = SAMPLE_RATE / 4;
         for (Note note : notes) {
+            // TODO: 2019/5/9 干啥的？
             int length = note.getLength();
             double freq = note.getFreq();
             byte[] buffer = new byte[bufferSize * length];
@@ -170,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 buffer[2 * i + 1] = (byte) ((normVal & 0xff00) >>> 8);
             }
             track.add(buffer);
-            Log.d("audio", "The freq is : " + freq);
+            Log.i(TAG, "The freq is : " + freq);
         }
         int bufferLength = 0;
         for (byte[] note : track) {
@@ -195,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void playTrack(String song) {
+        Log.i(TAG, "playTrack " + song);
+
+        // 根据谱表绘制五线谱
         scoresheet.setTrack(song);
         scoresheet.invalidate();
         final ArrayList<Note> notes = songParse(song);
@@ -214,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sensorTrigger() {
         for (Song song : songList) {
-            Log.d("audio", "The sensor is sensing: " + song.getTrack());
+            Log.i(TAG, "The sensor is sensing: " + song.getTrack());
             float songRange = song.getRange() / 2;
             float lowerX = x - songRange;
             float upperX = x + songRange;
@@ -266,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences songs = getSharedPreferences("SavedSongs", 0);
         SharedPreferences.Editor editor = songs.edit();
         editor.putString("songs", array.toString()).apply();
-        Log.d("audio", "JSON Object saved: " + songs.getString("songs", " "));
+        Log.i(TAG, "JSON Object saved: " + songs.getString("songs", " "));
     }
 
     @Override
@@ -274,10 +292,10 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mgr.registerListener(mSensorEventListener, orientation, SensorManager.SENSOR_DELAY_NORMAL);
         SharedPreferences songs = getSharedPreferences("SavedSongs", 0);
-        Log.d("audio", "JSON Object retrieved: " + songs.getString("songs", " "));
+        Log.i(TAG, "JSON Object retrieved: " + songs.getString("songs", " "));
         try {
             JSONArray array = new JSONArray(songs.getString("songs", " "));
-            Log.d("audio", "JSON Object retrieved: " + songs.getString("songs", " "));
+            Log.i(TAG, "JSON Object retrieved: " + songs.getString("songs", " "));
             songList = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject songObj = array.getJSONObject(i);

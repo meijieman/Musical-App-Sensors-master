@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:text="1G#5 2Fb5 3E#5 4Db5 4C#5 6Bb4 8A#4 1Gb4 2F#4 3Eb4 4D#4 6Cb4"
+        android:text="8G5 8F5 8E5 8D5 8C5 6B4 8A4 1G4 8F4 8E4 8D4 6C4"
         android:layout_row="0"
         android:layout_columnSpan="2"/>
 
@@ -55,7 +55,7 @@
         android:layout_row="3"
         android:text="@string/play_button_text"/>
 
-    <willburles.brookes.ac.musicalsensors.ScoreSheet
+    <willburles.brookes.ac.musicalsensors.Scoresheet
         android:id="@+id/scoresheet_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
