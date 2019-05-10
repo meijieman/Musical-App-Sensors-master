@@ -26,6 +26,9 @@ octave 八度音阶
 
 
 ## 参考资料
+* 项目
+https://github.com/estearg/android-piano
+
 * 中英文对照
 https://www.edwardshaw.net/47397.html
 
