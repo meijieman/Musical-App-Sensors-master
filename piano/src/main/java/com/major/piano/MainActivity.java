@@ -17,14 +17,18 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +39,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {
+
+    private static final String TAG = "tag_ma";
 
     // Custom view
     private PianoLayout pianoView;
@@ -85,8 +91,38 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         // Set view
+        FrameLayout fl = new FrameLayout(this);
         pianoView = new PianoLayout(this.getApplicationContext());
-        setContentView(pianoView);
+        fl.addView(pianoView);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        Log.d(TAG, "width = " + width + ",height = " + height);
+
+        FrameLayout fl2 = new FrameLayout(this);
+        fl2.setBackgroundColor(Color.WHITE);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / 2);
+        fl2.setLayoutParams(params);
+
+        // 添加五线谱
+        Scoresheet scoresheet = new Scoresheet(this);
+        FrameLayout.LayoutParams sParam = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        sParam.leftMargin = 10;
+        sParam.topMargin = 10;
+        sParam.rightMargin = 10;
+        sParam.bottomMargin = 10;
+        scoresheet.setLayoutParams(sParam);
+
+        fl2.addView(scoresheet);
+
+        fl2.setClickable(true);
+        fl2.setFocusable(true);
+        fl.addView(fl2);
+
+        setContentView(fl);
+
+        scoresheet.setTrack("4C4 4D4 4E4 4F4 4G4 4A4 4B4");
     }
 
     @Override
@@ -328,8 +364,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                             actionCode == MotionEvent.ACTION_POINTER_DOWN ||
                             actionCode == MotionEvent.ACTION_UP ||
                             actionCode == MotionEvent.ACTION_POINTER_UP ||
-                            actionCode == MotionEvent.ACTION_MOVE
-            )) {
+                            actionCode == MotionEvent.ACTION_MOVE)) {
                 return false;
             }
             // Use of maps to keep track of:
